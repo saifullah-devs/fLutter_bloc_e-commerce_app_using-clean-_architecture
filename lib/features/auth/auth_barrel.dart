@@ -1,0 +1,9 @@
+// Data
+export 'data/repository/auth_repository_impl.dart';
+export 'data/resource/auth_firebase_service.dart';
+// Domain
+export 'domain/repository/auth.dart';
+export 'domain/usecases/auth_usecases.dart';
+// Presentations
+export 'presentations/bloc/auth/auth_bloc.dart';
+export 'presentations/bloc/user_requirements/user_requirements_bloc.dart';

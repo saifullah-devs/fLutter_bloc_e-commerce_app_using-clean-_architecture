@@ -1,0 +1,10 @@
+// Auth
+export 'auth/presentations/pages/signin.dart';
+export 'auth/presentations/pages/enter_password.dart';
+export 'auth/presentations/pages/signup.dart';
+export 'auth/presentations/pages/gender_and_age_selection.dart';
+export 'auth/presentations/pages/forget_password.dart';
+export 'auth/presentations/pages/password_reset_email.dart';
+// Splash
+export 'splash/presentations/pages/splash_screen.dart';
+export 'home/presentation/views/home_screen.dart';
