@@ -1,8 +1,8 @@
 import 'dart:io';
-// import 'package:flutter/foundation.dart' show kIsWeb;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:e_commerce_bloc/common/bottomsheet/app_bottonsheet.dart';
-import 'package:e_commerce_bloc/common/widgets/basic_app_bar.dart';
-import 'package:e_commerce_bloc/common/widgets/basic_app_button.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/basic_app_bar.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/basic_app_button.dart';
 import 'package:e_commerce_bloc/core/config/color/colors.dart';
 import 'package:e_commerce_bloc/core/routes/routes_name.dart';
 import 'package:e_commerce_bloc/core/utils/enum.dart';
@@ -73,9 +73,7 @@ class GenderAndAgeSelectionPage extends StatelessWidget {
                             ),
                           ),
                           const SizedBox(height: 30),
-                          // if (!kIsWeb) ...[
-                          // ignore: dead_code
-                          if (false) ...[
+                          if (!kIsWeb) ...[
                             _imageSelection(innerContext),
                             const SizedBox(height: 30),
                           ],
@@ -184,7 +182,8 @@ class GenderAndAgeSelectionPage extends StatelessWidget {
         return Center(
           child: GestureDetector(
             onTap: () {
-              context.read<UserRequirementsBloc>().add(SelectImageEvent());
+              // Open the bottom sheet instead of firing an event directly
+              _showImageSourceActionSheet(context, state);
             },
             child: Stack(
               children: [
@@ -213,6 +212,67 @@ class GenderAndAgeSelectionPage extends StatelessWidget {
                 ),
               ],
             ),
+          ),
+        );
+      },
+    );
+  }
+
+  // Helper method to show the options
+  void _showImageSourceActionSheet(
+    BuildContext context,
+    UserRequirementsState state,
+  ) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (bottomSheetContext) {
+        return SafeArea(
+          child: Wrap(
+            children: [
+              const Padding(
+                padding: EdgeInsets.all(16.0),
+                child: Text(
+                  'Profile Photo',
+                  style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                ),
+              ),
+              ListTile(
+                leading: const Icon(Icons.photo_library),
+                title: const Text('Choose from Gallery'),
+                onTap: () {
+                  // 1. Fire Gallery Event
+                  context.read<UserRequirementsBloc>().add(GalleryImageEvent());
+                  Navigator.pop(bottomSheetContext); // Close sheet
+                },
+              ),
+              ListTile(
+                leading: const Icon(Icons.camera_alt),
+                title: const Text('Take a Photo'),
+                onTap: () {
+                  // 2. Fire Camera Event
+                  context.read<UserRequirementsBloc>().add(CameraImageEvent());
+                  Navigator.pop(bottomSheetContext); // Close sheet
+                },
+              ),
+              // 3. Fire Remove Event (Only show if an image actually exists!)
+              if (state.imagePath != null && state.imagePath!.isNotEmpty)
+                ListTile(
+                  leading: const Icon(Icons.delete_outline, color: Colors.red),
+                  title: const Text(
+                    'Remove Photo',
+                    style: TextStyle(color: Colors.red),
+                  ),
+                  onTap: () {
+                    context.read<UserRequirementsBloc>().add(
+                      RemoveImageEvent(),
+                    );
+                    Navigator.pop(bottomSheetContext); // Close sheet
+                  },
+                ),
+            ],
           ),
         );
       },

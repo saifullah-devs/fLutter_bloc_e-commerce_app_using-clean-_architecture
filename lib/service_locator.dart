@@ -1,5 +1,6 @@
-import 'package:e_commerce_bloc/features/auth/auth_barrel.dart';
-import 'package:e_commerce_bloc/features/auth/domain/usecases/image_picker_usecase.dart';
+import 'features/auth/auth_barrel.dart';
+import 'features/category/category_barrel.dart';
+
 import 'package:get_it/get_it.dart';
 
 final sl = GetIt.instance;
@@ -11,9 +12,11 @@ Future<void> initializeDependencies() async {
 
   // Services
   sl.registerSingleton<AuthFirebaseService>(AuthFirebaseServiceimpl());
+  sl.registerSingleton<CategoryFirebaseService>(CategoryFirebaseServiceImpl());
 
   // Repositories
   sl.registerSingleton<AuthRepository>(AuthRepositoryImpl());
+  sl.registerSingleton<CategoryRepository>(CategoryRepositoryImpl());
 
   // Usecases
   sl.registerSingleton<SignupUseCase>(SignupUseCase());
@@ -25,5 +28,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<SendPasswordResetEmailUseCase>(
     SendPasswordResetEmailUseCase(),
   );
-  sl.registerSingleton<ImagePickerUseCase>(ImagePickerUseCase());
+  sl.registerSingleton<GalleryImagePickerUseCase>(GalleryImagePickerUseCase());
+  sl.registerSingleton<CameraImagePickerUseCase>(CameraImagePickerUseCase());
+  sl.registerSingleton<NoneImagePickerUseCase>(NoneImagePickerUseCase());
 }

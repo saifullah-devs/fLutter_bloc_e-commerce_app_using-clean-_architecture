@@ -1,6 +1,6 @@
-import 'package:e_commerce_bloc/common/widgets/auth_text_form_field_widget.dart';
-import 'package:e_commerce_bloc/common/widgets/auth_title_widget.dart';
-import 'package:e_commerce_bloc/common/widgets/basic_app_button.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/auth_text_form_field_widget.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/auth_title_widget.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/basic_app_button.dart';
 import 'package:e_commerce_bloc/core/routes/routes_name.dart';
 import 'package:e_commerce_bloc/core/utils/validations_mixin.dart';
 import 'package:flutter/gestures.dart';
@@ -71,6 +71,8 @@ class _SigninPageState extends State<SigninPage> {
   Widget _createAccount(BuildContext context) {
     return RichText(
       text: TextSpan(
+        style: Theme.of(context).textTheme.bodyMedium,
+
         children: [
           const TextSpan(text: "Don't you have an Account? "),
           TextSpan(

@@ -1,4 +1,4 @@
-import 'package:e_commerce_bloc/common/widgets/basic_app_button.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/basic_app_button.dart';
 import 'package:e_commerce_bloc/core/config/assets/app_vectors.dart';
 import 'package:e_commerce_bloc/core/routes/routes_name.dart';
 import 'package:flutter/material.dart';

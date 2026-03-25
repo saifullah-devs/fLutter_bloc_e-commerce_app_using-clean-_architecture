@@ -1,7 +1,7 @@
-import 'package:e_commerce_bloc/common/widgets/auth_text_form_field_widget.dart';
-import 'package:e_commerce_bloc/common/widgets/auth_title_widget.dart';
-import 'package:e_commerce_bloc/common/widgets/basic_app_button.dart';
-import 'package:e_commerce_bloc/common/widgets/validation_guide.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/auth_text_form_field_widget.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/auth_title_widget.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/basic_app_button.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/validation_guide.dart';
 import 'package:e_commerce_bloc/core/routes/routes_name.dart';
 import 'package:e_commerce_bloc/core/utils/gap.dart';
 import 'package:e_commerce_bloc/core/utils/validations_mixin.dart';
@@ -130,8 +130,9 @@ class _SignUpPageState extends State<SignUpPage> {
   Widget _createAccount(BuildContext context) {
     return RichText(
       text: TextSpan(
+        style: Theme.of(context).textTheme.bodyMedium,
         children: [
-          TextSpan(text: "Already have an acoount? "),
+          TextSpan(text: "Already have an account? "),
           TextSpan(
             text: "Sign in",
             recognizer: TapGestureRecognizer()

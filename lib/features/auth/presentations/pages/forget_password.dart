@@ -1,7 +1,7 @@
-import 'package:e_commerce_bloc/common/widgets/auth_text_form_field_widget.dart';
-import 'package:e_commerce_bloc/common/widgets/auth_title_widget.dart';
-import 'package:e_commerce_bloc/common/widgets/basic_app_bar.dart';
-import 'package:e_commerce_bloc/common/widgets/basic_app_button.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/auth_text_form_field_widget.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/auth_title_widget.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/basic_app_bar.dart';
+import 'package:e_commerce_bloc/features/auth/presentations/widgets/basic_app_button.dart';
 import 'package:e_commerce_bloc/core/routes/routes_name.dart';
 import 'package:e_commerce_bloc/core/utils/enum.dart';
 import 'package:e_commerce_bloc/core/utils/flash_bar_helper.dart';

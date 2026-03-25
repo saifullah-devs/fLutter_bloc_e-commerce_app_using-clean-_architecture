@@ -17,7 +17,9 @@ abstract class AuthFirebaseService {
   Future<Either> signout();
   Future<Either> isUserLoggedIn();
   Future<Either> getUser();
-  Future<Either> imagePicker();
+  Future<Either> galleryImagePicker();
+  Future<Either> cameraImagePicker();
+  Future<Either> removeImagePicker();
 }
 
 class AuthFirebaseServiceimpl extends AuthFirebaseService {
@@ -170,7 +172,7 @@ class AuthFirebaseServiceimpl extends AuthFirebaseService {
   }
 
   @override
-  Future<Either> imagePicker() async {
+  Future<Either> galleryImagePicker() async {
     try {
       final ImagePicker picker = ImagePicker();
       // Pick an image from gallery
@@ -183,6 +185,32 @@ class AuthFirebaseServiceimpl extends AuthFirebaseService {
       }
     } catch (e) {
       return const Left("Failed to pick image");
+    }
+  }
+
+  @override
+  Future<Either> cameraImagePicker() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      final XFile? image = await picker.pickImage(source: ImageSource.camera);
+
+      if (image != null) {
+        return Right(File(image.path));
+      } else {
+        return const Left("No image selected");
+      }
+    } catch (e) {
+      return const Left("Failed to pick image");
+    }
+  }
+
+  @override
+  Future<Either> removeImagePicker() async {
+    try {
+      // Returning an empty string signifies to the Bloc that the image was cleared
+      return const Right('');
+    } catch (e) {
+      return const Left("Failed to clear image");
     }
   }
 }

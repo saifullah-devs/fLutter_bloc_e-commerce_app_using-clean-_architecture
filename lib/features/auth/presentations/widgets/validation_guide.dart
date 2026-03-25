@@ -42,11 +42,7 @@ class ValidationGuide extends StatelessWidget {
           Expanded(
             child: Text(
               text,
-              style: const TextStyle(
-                color: AppColors.whiteColor,
-                fontSize: 13,
-                height: 1.4,
-              ),
+              style: const TextStyle(fontSize: 13, height: 1.4),
             ),
           ),
         ],

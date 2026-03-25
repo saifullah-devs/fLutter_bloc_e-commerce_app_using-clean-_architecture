@@ -1,12 +1,13 @@
-import 'package:e_commerce_bloc/core/config/assets/app_vectors.dart';
 import 'package:e_commerce_bloc/core/routes/routes_name.dart';
 import 'package:e_commerce_bloc/core/utils/enum.dart';
 import 'package:e_commerce_bloc/core/utils/flash_bar_helper.dart';
 import 'package:e_commerce_bloc/features/auth/presentations/bloc/auth/auth_bloc.dart';
 import 'package:e_commerce_bloc/features/home/presentation/widgets/custom_drawer.dart';
+import 'package:e_commerce_bloc/features/home/presentation/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+
+import '../widgets/search_field.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -48,32 +49,16 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         drawer: const CustomDrawer(),
-        appBar: AppBar(
-          backgroundColor: Colors.transparent,
-          centerTitle: true,
-          title: const Text('Home'),
-          actions: [SvgPicture.asset(AppVectors.appLogo)],
-          leading: BlocBuilder<AuthBloc, AuthState>(
-            builder: (context, state) {
-              return GestureDetector(
-                onTap: () => Scaffold.of(context).openDrawer(),
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: CircleAvatar(
-                    backgroundImage: (state.user?.image.isNotEmpty ?? false)
-                        ? NetworkImage(state.user!.image)
-                        : null,
-                    child:
-                        (state.user?.image == null || state.user!.image.isEmpty)
-                        ? const Icon(Icons.person)
-                        : null,
-                  ),
-                ),
-              );
-            },
-          ),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: HeaderWidget(),
         ),
-        body: const Center(child: Text("Welcome to the Store")),
+        body: Column(
+          children: [
+            SearchField(),
+            const Center(child: Text("Welcome to the Store")),
+          ],
+        ),
       ),
     );
   }

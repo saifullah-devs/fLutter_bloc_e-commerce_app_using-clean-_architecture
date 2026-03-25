@@ -1,6 +1,5 @@
 import 'package:e_commerce_bloc/core/response/api_response.dart';
-import 'package:e_commerce_bloc/features/auth/domain/usecases/get_ages_usecase.dart';
-import 'package:e_commerce_bloc/features/auth/domain/usecases/image_picker_usecase.dart';
+import 'package:e_commerce_bloc/features/auth/auth_barrel.dart';
 import 'package:e_commerce_bloc/service_locator.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,14 +29,31 @@ class UserRequirementsBloc
             emit(state.copyWith(agesResponse: ApiResponse.completed(data))),
       );
     });
-    on<SelectImageEvent>((event, emit) async {
-      final result = await sl<ImagePickerUseCase>().call();
+    on<GalleryImageEvent>((event, emit) async {
+      final result = await sl<GalleryImagePickerUseCase>().call();
 
       result.fold(
         (error) => null,
         (file) => emit(
           state.copyWith(imagePath: file.path),
         ), // Ensure imagePath is in your state
+      );
+    });
+    on<CameraImageEvent>((event, emit) async {
+      final result = await sl<CameraImagePickerUseCase>().call();
+
+      result.fold(
+        (error) => null,
+        (file) => emit(
+          state.copyWith(imagePath: file.path),
+        ), // Ensure imagePath is in your state
+      );
+    });
+    on<RemoveImageEvent>((event, emit) async {
+      final result = await sl<NoneImagePickerUseCase>().call();
+      result.fold(
+        (error) => null,
+        (emptyString) => emit(state.copyWith(imagePath: emptyString)),
       );
     });
   }

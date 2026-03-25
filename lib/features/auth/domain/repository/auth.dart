@@ -9,5 +9,7 @@ abstract class AuthRepository {
   Future<Either> sendPasswordResetEmail(String email);
   Future<Either> isUserLoggedIn();
   Future<Either> getUser();
-  Future<Either> imagePicker();
+  Future<Either> galleryImagePicker();
+  Future<Either> cameraImagePicker();
+  Future<Either> removeImagePicker();
 }

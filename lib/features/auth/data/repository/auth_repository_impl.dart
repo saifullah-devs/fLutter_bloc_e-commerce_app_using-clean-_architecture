@@ -17,8 +17,18 @@ class AuthRepositoryImpl extends AuthRepository {
   }
 
   @override
-  Future<Either> imagePicker() async {
-    return await sl<AuthFirebaseService>().imagePicker();
+  Future<Either> galleryImagePicker() async {
+    return await sl<AuthFirebaseService>().galleryImagePicker();
+  }
+
+  @override
+  Future<Either> cameraImagePicker() async {
+    return await sl<AuthFirebaseService>().cameraImagePicker();
+  }
+
+  @override
+  Future<Either> removeImagePicker() async {
+    return await sl<AuthFirebaseService>().removeImagePicker();
   }
 
   @override

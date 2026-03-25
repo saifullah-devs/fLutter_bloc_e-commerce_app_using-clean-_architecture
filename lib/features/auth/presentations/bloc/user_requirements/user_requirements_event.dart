@@ -22,4 +22,8 @@ class SelectAgeEvent extends UserRequirementsEvent {
 
 class DisplayAgesEvent extends UserRequirementsEvent {}
 
-class SelectImageEvent extends UserRequirementsEvent {}
+class GalleryImageEvent extends UserRequirementsEvent {}
+
+class CameraImageEvent extends UserRequirementsEvent {}
+
+class RemoveImageEvent extends UserRequirementsEvent {}

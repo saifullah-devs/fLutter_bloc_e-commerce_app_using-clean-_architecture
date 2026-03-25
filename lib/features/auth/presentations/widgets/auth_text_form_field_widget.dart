@@ -30,41 +30,29 @@ class _AuthTextFormFieldWidgetState extends State<AuthTextFormFieldWidget> {
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+
     return TextFormField(
       controller: widget.controller,
       obscureText: _obscureText,
       validator: widget.validator,
       decoration: InputDecoration(
         hintText: widget.hintText,
-        filled: true,
         suffixIcon: widget.isPassword
             ? IconButton(
                 icon: Icon(
                   _obscureText ? Icons.visibility_off : Icons.visibility,
-                  color: Colors.grey,
+                  color:
+                      theme.inputDecorationTheme.hintStyle?.color ??
+                      Colors.grey,
                 ),
                 onPressed: () {
                   setState(() {
-                    _obscureText = !_obscureText; // Toggle the boolean
+                    _obscureText = !_obscureText;
                   });
                 },
               )
             : null,
-        contentPadding: const EdgeInsets.symmetric(
-          vertical: 18,
-          horizontal: 20,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.grey, width: 0.5),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(
-            color: Theme.of(context).primaryColor,
-            width: 2,
-          ),
-        ),
       ),
     );
   }
