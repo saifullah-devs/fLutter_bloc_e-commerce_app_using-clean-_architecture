@@ -1,12 +1,14 @@
 import 'package:e_commerce_bloc/core/routes/routes_name.dart';
 import 'package:e_commerce_bloc/core/utils/enum.dart';
 import 'package:e_commerce_bloc/core/utils/flash_bar_helper.dart';
+import 'package:e_commerce_bloc/core/utils/gap.dart';
 import 'package:e_commerce_bloc/features/auth/presentations/bloc/auth/auth_bloc.dart';
 import 'package:e_commerce_bloc/features/home/presentation/widgets/custom_drawer.dart';
 import 'package:e_commerce_bloc/features/home/presentation/widgets/header.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
+import '../widgets/categories_widget.dart';
 import '../widgets/search_field.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -53,12 +55,7 @@ class _HomeScreenState extends State<HomeScreen> {
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: HeaderWidget(),
         ),
-        body: Column(
-          children: [
-            SearchField(),
-            const Center(child: Text("Welcome to the Store")),
-          ],
-        ),
+        body: Column(children: [SearchField(), Gap.h20, Categories(), Gap.h20]),
       ),
     );
   }

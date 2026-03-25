@@ -167,7 +167,7 @@ class AppTheme {
       fillColor: fillColor,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
       labelStyle: TextStyle(color: textColor),
-      hintStyle: TextStyle(color: textColor.withOpacity(0.6)),
+      hintStyle: TextStyle(color: textColor.withValues(alpha: .6)),
       border: OutlineInputBorder(
         borderRadius: BorderRadius.circular(12),
         borderSide: const BorderSide(color: Colors.grey),

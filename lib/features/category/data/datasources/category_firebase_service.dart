@@ -12,6 +12,7 @@ class CategoryFirebaseServiceImpl extends CategoryFirebaseService {
   Future<Either> getCategories() async {
     try {
       var returnData = await _apiService.readAll(path: 'categories');
+      print("RAW FIREBASE DATA: $returnData");
       return Right(returnData);
     } catch (e) {
       return const Left('Please try again');
