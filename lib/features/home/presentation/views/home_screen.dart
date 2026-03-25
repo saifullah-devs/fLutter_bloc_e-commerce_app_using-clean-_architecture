@@ -8,13 +8,22 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    context.read<AuthBloc>().add(GetUserEvent());
+  State<HomeScreen> createState() => _HomeScreenState();
+}
 
+class _HomeScreenState extends State<HomeScreen> {
+  @override
+  void initState() {
+    super.initState();
+    context.read<AuthBloc>().add(GetUserEvent());
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return BlocListener<AuthBloc, AuthState>(
       listener: (context, state) {
         if (state.signOutResponse.status == FetchStatus.loading) {
@@ -30,9 +39,10 @@ class HomeScreen extends StatelessWidget {
           );
         }
         if (state.getUserResponse.status == FetchStatus.error) {
-          FlashBarHelper.flashBarErrorMessage(
+          Navigator.pushNamedAndRemoveUntil(
             context,
-            "Error fetching user: ${state.getUserResponse.message}",
+            RoutesName.signinScreen,
+            (r) => false,
           );
         }
       },
