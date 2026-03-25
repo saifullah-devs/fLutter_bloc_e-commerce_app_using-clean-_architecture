@@ -2,7 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 abstract class BaseDatabaseServices {
   /// Reads a collection or a specific document
-  Future<dynamic> read({
+  Future<dynamic> readAll({
+    required String path,
+    Query Function(Query query)? queryBuilder,
+  });
+  Future<dynamic> readOne({
     required String path,
     Query Function(Query query)? queryBuilder,
   });

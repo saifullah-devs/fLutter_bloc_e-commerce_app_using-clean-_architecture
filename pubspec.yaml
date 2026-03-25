@@ -43,6 +43,8 @@ dependencies:
   get_it: ^9.2.1
   google_fonts: ^8.0.2
   equatable: ^2.0.8
+  image_picker: ^1.2.1
+  firebase_storage: ^13.2.0
 
 dev_dependencies:
   flutter_test:

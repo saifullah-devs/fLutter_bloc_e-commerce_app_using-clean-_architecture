@@ -8,7 +8,7 @@ class FirebaseServicesApi implements BaseDatabaseServices {
   static const int _defaultTimeout = 15;
 
   @override
-  Future<dynamic> read({
+  Future<dynamic> readAll({
     required String path,
     Query Function(Query query)? queryBuilder,
   }) async {
@@ -26,6 +26,42 @@ class FirebaseServicesApi implements BaseDatabaseServices {
         data['id'] = doc.id;
         return data;
       }).toList();
+    });
+  }
+
+  @override
+  Future<dynamic> readOne({
+    required String path,
+    Query Function(Query query)? queryBuilder,
+  }) async {
+    return _processRequest(() async {
+      if (queryBuilder != null) {
+        Query query = _firestore.collection(path);
+        query = queryBuilder(query).limit(1);
+
+        final snapshot = await query.get();
+
+        if (snapshot.docs.isEmpty) {
+          throw BadRequestException(
+            'No document found at the given path/query.',
+          );
+        }
+
+        final doc = snapshot.docs.first;
+        final data = doc.data() as Map<String, dynamic>;
+        data['id'] = doc.id;
+        return data;
+      }
+
+      final snapshot = await _firestore.doc(path).get();
+
+      if (!snapshot.exists) {
+        throw BadRequestException('Document does not exist.');
+      }
+
+      final data = snapshot.data() as Map<String, dynamic>;
+      data['id'] = snapshot.id;
+      return data;
     });
   }
 

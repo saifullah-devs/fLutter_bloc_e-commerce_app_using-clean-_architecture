@@ -8,9 +8,6 @@ import 'package:e_commerce_bloc/core/utils/validations_mixin.dart';
 import 'package:e_commerce_bloc/features/auth/data/models/user_creation_req.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-
-import '../bloc/user_requirements/user_requirements_bloc.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -104,13 +101,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       Navigator.pushNamed(
                         context,
                         RoutesName.ageGenderSelectionScreen,
-                        arguments: {
-                          'userReq': requestData,
-                          'bloc': context
-                              .read<
-                                UserRequirementsBloc
-                              >(), // Pass the actual instance
-                        },
+                        arguments: requestData,
                       );
                     }
                   },

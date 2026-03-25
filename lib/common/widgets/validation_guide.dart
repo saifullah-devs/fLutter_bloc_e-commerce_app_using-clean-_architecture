@@ -26,7 +26,7 @@ class ValidationGuide extends StatelessWidget {
             ),
           ),
           const SizedBox(height: 8),
-          ...requirements.map((req) => _buildRequirementItem(req)).toList(),
+          ...requirements.map((req) => _buildRequirementItem(req)),
         ],
       ),
     );

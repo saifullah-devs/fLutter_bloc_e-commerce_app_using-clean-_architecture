@@ -7,7 +7,7 @@ abstract class UserRequirementsEvent extends Equatable {
 }
 
 class SelectGenderEvent extends UserRequirementsEvent {
-  final int genderIndex;
+  final String genderIndex;
   const SelectGenderEvent(this.genderIndex);
   @override
   List<Object?> get props => [genderIndex];
@@ -21,3 +21,5 @@ class SelectAgeEvent extends UserRequirementsEvent {
 }
 
 class DisplayAgesEvent extends UserRequirementsEvent {}
+
+class SelectImageEvent extends UserRequirementsEvent {}

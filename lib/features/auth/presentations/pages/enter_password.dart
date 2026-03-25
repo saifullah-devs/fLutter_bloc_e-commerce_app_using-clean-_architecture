@@ -8,7 +8,7 @@ import 'package:e_commerce_bloc/core/utils/enum.dart';
 import 'package:e_commerce_bloc/core/utils/flash_bar_helper.dart';
 import 'package:e_commerce_bloc/core/utils/gap.dart';
 import 'package:e_commerce_bloc/core/utils/validations_mixin.dart';
-import 'package:e_commerce_bloc/features/auth/data/models/user_creation_req.dart';
+import 'package:e_commerce_bloc/features/auth/data/models/user_login.dart';
 import 'package:e_commerce_bloc/features/auth/presentations/bloc/auth/auth_bloc.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -36,7 +36,6 @@ class _EnterPasswordState extends State<EnterPassword> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: const BasicAppbar(),
-      // 1. Wrap with BlocListener to handle navigation/errors
       body: BlocListener<AuthBloc, AuthState>(
         listener: (context, state) {
           if (state.signOutResponse.status == FetchStatus.loading) {
@@ -84,16 +83,15 @@ class _EnterPasswordState extends State<EnterPassword> {
                 Gap.h20,
                 SizedBox(
                   width: double.infinity,
-                  // 2. Wrap button with BlocBuilder to show loading state
                   child: BlocBuilder<AuthBloc, AuthState>(
                     builder: (context, state) {
                       return BasicAppButton(
                         onPressed: () {
                           if (_formKey.currentState!.validate()) {
-                            _handleContinue(context);
+                            _handleSignin(context);
                           }
                         },
-                        title: 'Continue',
+                        title: 'Sign In',
                       );
                     },
                   ),
@@ -117,19 +115,23 @@ class _EnterPasswordState extends State<EnterPassword> {
     );
   }
 
-  void _handleContinue(BuildContext context) {
+  void _handleSignin(BuildContext context) {
     final password = _passwordController.text.trim();
 
+    // CASE 1: Returning User (Simple Email String)
     if (widget.email is String) {
       context.read<AuthBloc>().add(
-        SigninEvent(email: widget.email, password: password),
+        SigninEvent(email: widget.email as String, password: password),
       );
-    } else if (widget.email is UserCreationReq) {
-      widget.email.password = password;
-      Navigator.pushNamedAndRemoveUntil(
-        context,
-        RoutesName.homeScreen,
-        (route) => false,
+    }
+    // CASE 2: Returning User (Structured Signin Request)
+    else if (widget.email is UserSigninReq) {
+      final loginReq = widget.email as UserSigninReq;
+      loginReq.password =
+          password; // Update the object with the entered password
+
+      context.read<AuthBloc>().add(
+        SigninEvent(email: loginReq.email!, password: loginReq.password!),
       );
     }
   }

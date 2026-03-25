@@ -26,3 +26,5 @@ class SendPasswordResetEmailEvent extends AuthEvent {
 }
 
 class SignOutEvent extends AuthEvent {}
+
+class GetUserEvent extends AuthEvent {}

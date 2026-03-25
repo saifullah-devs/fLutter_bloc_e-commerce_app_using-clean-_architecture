@@ -1,7 +1,12 @@
+import 'dart:io';
+// import 'package:flutter/foundation.dart' show kIsWeb;
+
 import 'package:dartz/dartz.dart';
 import 'package:e_commerce_bloc/core/network/firebase_services_api.dart';
 import 'package:e_commerce_bloc/features/auth/data/models/user_creation_req.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:image_picker/image_picker.dart';
+// import 'package:firebase_storage/firebase_storage.dart';
 
 abstract class AuthFirebaseService {
   Future<Either> signup(UserCreationReq user);
@@ -10,45 +15,69 @@ abstract class AuthFirebaseService {
 
   Future<Either> getAges();
   Future<Either> signout();
+  Future<Either> isUserLoggedIn();
+  Future<Either> getUser();
+  Future<Either> imagePicker();
 }
 
 class AuthFirebaseServiceimpl extends AuthFirebaseService {
   final FirebaseServicesApi _apiService = FirebaseServicesApi();
+
   @override
   Future<Either> signup(UserCreationReq user) async {
+    UserCredential? userCredential;
     try {
-      final UserCredential userCredential = await FirebaseAuth.instance
+      // 1. Create Auth User
+      userCredential = await FirebaseAuth.instance
           .createUserWithEmailAndPassword(
             email: user.email!,
             password: user.password!,
           );
 
+      // String imageUrl = '';
+
+      // // 2. Handle Image Upload (Only if not on Web and image exists)
+      // if (!kIsWeb && user.image != null && user.image!.isNotEmpty) {
+      //   final storageRef = FirebaseStorage.instance
+      //       .ref()
+      //       .child('UserImages')
+      //       .child('${userCredential.user!.uid}.jpg');
+
+      //   // Use putFile for Android/iOS
+      //   await storageRef.putFile(File(user.image!));
+      //   imageUrl = await storageRef.getDownloadURL();
+      // }
+
+      // 3. Save to Database
       await _apiService.update(
         path: 'Users/${userCredential.user!.uid}',
         data: {
+          'userId': userCredential.user!.uid,
           'firstName': user.firstName,
           'lastName': user.lastName,
           'email': user.email,
           'gender': user.gender,
           'age': user.age,
+          'image': '',
+          // 'image': imageUrl,
         },
       );
+
       return const Right("Signup was successful!");
     } on FirebaseAuthException catch (e) {
-      String message = '';
-      if (e.code == 'weak-password') {
-        message = 'The password provided is too weak';
-      } else if (e.code == 'email-already-in-use') {
-        message = 'An Account already exist with thst email';
+      return Left(e.message ?? 'Auth failed');
+    } catch (e) {
+      if (userCredential?.user != null) {
+        await userCredential!.user!.delete();
       }
-      return Left(message);
+      return Left('Error: ${e.toString()}');
     }
   }
 
   @override
   Future<Either> getAges() async {
     try {
-      var returnData = await _apiService.read(
+      var returnData = await _apiService.readAll(
         path: 'ages',
         queryBuilder: (query) => query.orderBy('value', descending: false),
       );
@@ -107,6 +136,53 @@ class AuthFirebaseServiceimpl extends AuthFirebaseService {
       return const Right("Sign Out was successful!");
     } catch (e) {
       return Left(e);
+    }
+  }
+
+  @override
+  Future<Either> isUserLoggedIn() async {
+    try {
+      var user = FirebaseAuth.instance.currentUser;
+      if (user != null) {
+        return const Right(true);
+      } else {
+        return const Right(false);
+      }
+    } catch (e) {
+      return const Left('Authentication error');
+    }
+  }
+
+  @override
+  Future<Either> getUser() async {
+    try {
+      var user = FirebaseAuth.instance.currentUser;
+      if (user == null) return const Left("No user logged in");
+
+      var userData = await _apiService.readOne(path: 'Users/${user.uid}');
+
+      if (userData == null) return const Left("User data not found");
+
+      return Right(userData);
+    } catch (e) {
+      return Left(e.toString());
+    }
+  }
+
+  @override
+  Future<Either> imagePicker() async {
+    try {
+      final ImagePicker picker = ImagePicker();
+      // Pick an image from gallery
+      final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+
+      if (image != null) {
+        return Right(File(image.path));
+      } else {
+        return const Left("No image selected");
+      }
+    } catch (e) {
+      return const Left("Failed to pick image");
     }
   }
 }

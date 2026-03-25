@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:e_commerce_bloc/features/splash/domain/usecases/is_user_logged_in.dart';
+import 'package:e_commerce_bloc/features/auth/domain/usecases/is_user_logged_in.dart';
 import '../../../../service_locator.dart';
 
 part 'splash_event.dart';

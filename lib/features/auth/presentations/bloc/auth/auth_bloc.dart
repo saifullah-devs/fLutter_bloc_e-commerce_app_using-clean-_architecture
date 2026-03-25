@@ -1,5 +1,7 @@
 import 'package:e_commerce_bloc/core/response/api_response.dart';
 import 'package:e_commerce_bloc/features/auth/data/models/user_creation_req.dart';
+import 'package:e_commerce_bloc/features/auth/domain/entities/user.dart';
+import 'package:e_commerce_bloc/features/auth/domain/usecases/get_user_usecase.dart';
 import 'package:e_commerce_bloc/features/auth/domain/usecases/send_password_reset_email_usecase.dart';
 import 'package:e_commerce_bloc/features/auth/domain/usecases/signin_usecase.dart';
 import 'package:e_commerce_bloc/features/auth/domain/usecases/signout_usecase.dart';
@@ -16,6 +18,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   AuthBloc()
     : super(
         const AuthState(
+          getUserResponse: ApiResponse.initial(),
           signOutResponse: ApiResponse.initial(),
           signinResponse: ApiResponse.initial(),
           signupResponse: ApiResponse.initial(),
@@ -26,12 +29,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<SigninEvent>(_onSignin);
     on<SignOutEvent>(_onSignOut);
     on<SendPasswordResetEmailEvent>(_onSendPasswordResetEmail);
+    on<GetUserEvent>(_onGetUser);
   }
 
   Future<void> _onSignup(SignupEvent event, Emitter<AuthState> emit) async {
     emit(state.copyWith(signupResponse: const ApiResponse.loading()));
 
-    final result = await sl<SignupUsecase>().call(params: event.userReq);
+    final result = await sl<SignupUseCase>().call(params: event.userReq);
 
     result.fold(
       (message) =>
@@ -86,6 +90,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           emit(state.copyWith(signOutResponse: ApiResponse.error(message))),
       (data) =>
           emit(state.copyWith(signOutResponse: ApiResponse.completed(data))),
+    );
+  }
+
+  Future<void> _onGetUser(GetUserEvent event, Emitter<AuthState> emit) async {
+    emit(state.copyWith(getUserResponse: const ApiResponse.loading()));
+
+    final result = await sl<GetUserUseCase>().call();
+
+    result.fold(
+      (error) => emit(
+        state.copyWith(getUserResponse: ApiResponse.error(error.toString())),
+      ),
+      (userEntity) => emit(
+        state.copyWith(
+          getUserResponse: ApiResponse.completed(userEntity),
+          user: userEntity,
+        ),
+      ),
     );
   }
 }
