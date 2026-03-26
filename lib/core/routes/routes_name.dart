@@ -8,4 +8,9 @@ class RoutesName {
   static const String splashScreen = '/splash';
   static const String forgetPasswordScreen = '/forget_password';
   static const String passwordResetEmail = '/password_reset_email';
+
+  // Admin routes
+  static const String admin = '/admin';
+  static const String adminDashboard = '/admin/dashboard';
+  static const String adminCategory = '/admin/category';
 }

@@ -3,6 +3,7 @@ import 'package:e_commerce_bloc/core/utils/enum.dart';
 import 'package:e_commerce_bloc/core/utils/flash_bar_helper.dart';
 import 'package:e_commerce_bloc/core/utils/gap.dart';
 import 'package:e_commerce_bloc/features/auth/presentations/bloc/auth/auth_bloc.dart';
+import 'package:e_commerce_bloc/features/category/presentation/bloc/category_bloc.dart';
 import 'package:e_commerce_bloc/features/home/presentation/widgets/custom_drawer.dart';
 import 'package:e_commerce_bloc/features/home/presentation/widgets/header.dart';
 import 'package:flutter/material.dart';
@@ -23,6 +24,7 @@ class _HomeScreenState extends State<HomeScreen> {
   void initState() {
     super.initState();
     context.read<AuthBloc>().add(GetUserEvent());
+    context.read<CategoryBloc>().add(DisplayCategoriesEvent());
   }
 
   @override
@@ -55,7 +57,11 @@ class _HomeScreenState extends State<HomeScreen> {
           preferredSize: const Size.fromHeight(kToolbarHeight),
           child: HeaderWidget(),
         ),
-        body: Column(children: [SearchField(), Gap.h20, Categories(), Gap.h20]),
+        body: SingleChildScrollView(
+          child: Column(
+            children: [SearchField(), Gap.h20, Categories(), Gap.h20],
+          ),
+        ),
       ),
     );
   }

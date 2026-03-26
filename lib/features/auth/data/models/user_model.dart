@@ -7,6 +7,7 @@ class UserModel {
   final String firstName;
   final String lastName;
   final String email;
+  final String role;
   final String image;
   final String gender;
   final String ageGroup;
@@ -16,6 +17,7 @@ class UserModel {
     required this.firstName,
     required this.lastName,
     required this.email,
+    required this.role,
     required this.image,
     required this.gender,
     required this.ageGroup,
@@ -27,6 +29,7 @@ class UserModel {
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
+      'role': role,
       'image': image,
       'gender': gender,
       'age': ageGroup,
@@ -35,13 +38,16 @@ class UserModel {
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      userId: map['userId'] as String,
-      firstName: map['firstName'] as String,
-      lastName: map['lastName'] as String,
-      email: map['email'] as String,
-      image: map['image'] ?? '',
-      gender: map['gender'] as String,
-      ageGroup: map['age'] as String,
+      userId: map['userId']?.toString() ?? '',
+      firstName: map['firstName']?.toString() ?? '',
+      lastName: map['lastName']?.toString() ?? '',
+      email: map['email']?.toString() ?? '',
+
+      role: map['role']?.toString().toLowerCase().trim() ?? 'user',
+
+      image: map['image']?.toString() ?? '',
+      gender: map['gender']?.toString() ?? '',
+      ageGroup: map['age']?.toString() ?? '',
     );
   }
 
@@ -58,6 +64,7 @@ extension UserXModel on UserModel {
       firstName: firstName,
       lastName: lastName,
       email: email,
+      role: role,
       image: image,
       gender: gender,
       ageGroup: ageGroup,

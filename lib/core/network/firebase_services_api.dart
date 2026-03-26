@@ -66,11 +66,20 @@ class FirebaseServicesApi implements BaseDatabaseServices {
   }
 
   @override
-  Future<dynamic> create({required String path, dynamic data}) async {
+  Future<dynamic> create({
+    required String path,
+    dynamic data,
+    String? id,
+  }) async {
     return _processRequest(() async {
-      final DocumentReference docRef = await _firestore
-          .collection(path)
-          .add(data);
+      DocumentReference docRef;
+
+      if (id != null) {
+        docRef = _firestore.collection(path).doc(id);
+        await docRef.set(data);
+      } else {
+        docRef = await _firestore.collection(path).add(data);
+      }
 
       final snapshot = await docRef.get();
 

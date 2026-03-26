@@ -1,3 +1,4 @@
+import 'package:e_commerce_bloc/features/admin/presentaion/bloc/admin_bloc.dart';
 import 'package:e_commerce_bloc/features/category/presentation/bloc/category_bloc.dart';
 
 import 'features/auth/auth_barrel.dart';
@@ -11,7 +12,8 @@ Future<void> initializeDependencies() async {
   // Blocs
   sl.registerLazySingleton<AuthBloc>(() => AuthBloc());
   sl.registerLazySingleton<UserRequirementsBloc>(() => UserRequirementsBloc());
-  sl.registerLazySingleton<CategoryBloc>(() => CategoryBloc());
+  sl.registerLazySingleton(() => CategoryBloc());
+  sl.registerLazySingleton(() => AdminBloc());
 
   // Services
   sl.registerSingleton<AuthFirebaseService>(AuthFirebaseServiceimpl());
@@ -35,4 +37,7 @@ Future<void> initializeDependencies() async {
   sl.registerSingleton<CameraImagePickerUseCase>(CameraImagePickerUseCase());
   sl.registerSingleton<NoneImagePickerUseCase>(NoneImagePickerUseCase());
   sl.registerSingleton<GetCategoriesUseCase>(GetCategoriesUseCase());
+  sl.registerSingleton<AddCategoryUseCase>(AddCategoryUseCase());
+  sl.registerSingleton<UpdateCategoryUseCase>(UpdateCategoryUseCase());
+  sl.registerSingleton<DeleteCategoryUseCase>(DeleteCategoryUseCase());
 }

@@ -18,11 +18,19 @@ class SplashPage extends StatelessWidget {
       child: BlocListener<SplashBloc, SplashState>(
         listener: (context, state) {
           if (state is Authenticated) {
-            Navigator.pushNamedAndRemoveUntil(
-              context,
-              RoutesName.homeScreen,
-              (route) => false,
-            );
+            if (state.isAdmin) {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                RoutesName.admin,
+                (route) => false,
+              );
+            } else {
+              Navigator.pushNamedAndRemoveUntil(
+                context,
+                RoutesName.homeScreen,
+                (route) => false,
+              );
+            }
           }
           if (state is UnAuthenticated) {
             Navigator.pushNamedAndRemoveUntil(

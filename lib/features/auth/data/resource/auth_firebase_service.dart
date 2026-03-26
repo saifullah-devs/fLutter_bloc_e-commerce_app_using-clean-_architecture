@@ -58,6 +58,7 @@ class AuthFirebaseServiceimpl extends AuthFirebaseService {
           'firstName': user.firstName,
           'lastName': user.lastName,
           'email': user.email,
+          'role': 'customer',
           'gender': user.gender,
           'age': user.age,
           'image': '',

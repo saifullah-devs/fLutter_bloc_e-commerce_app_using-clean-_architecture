@@ -1,6 +1,6 @@
 import 'package:e_commerce_bloc/core/response/api_response.dart';
 import 'package:e_commerce_bloc/features/category/domain/entities/category.dart';
-import 'package:e_commerce_bloc/features/category/domain/usecases/get_categories.dart';
+import 'package:e_commerce_bloc/features/category/domain/usecases/get_category_usecase.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

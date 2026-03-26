@@ -31,4 +31,35 @@ class CategoryRepositoryImpl extends CategoryRepository {
       },
     );
   }
+
+  @override
+  Future<Either> addCategory(CategoryModel category) async {
+    // We send data WITHOUT the categoryId, because Firebase creates it for us
+    final Map<String, dynamic> data = {
+      'title': category.title,
+      'image': category.image,
+    };
+
+    return await sl<CategoryFirebaseService>().addCategory(data);
+  }
+
+  @override
+  Future<Either> updateCategory(CategoryModel category) async {
+    // We convert the updated CategoryModel into a map for Firebase
+    final Map<String, dynamic> data = {
+      'title': category.title,
+      'image': category.image,
+    };
+
+    // We pass the categoryId to the service so it knows exactly which document to update
+    return await sl<CategoryFirebaseService>().updateCategory(
+      category.categoryId,
+      data,
+    );
+  }
+
+  @override
+  Future<Either> deleteCategory(String id) async {
+    return await sl<CategoryFirebaseService>().deleteCategory(id);
+  }
 }

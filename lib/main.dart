@@ -1,6 +1,7 @@
 import 'package:e_commerce_bloc/core/config/themes/app_themes.dart';
 import 'package:e_commerce_bloc/core/routes/routes.dart';
 import 'package:e_commerce_bloc/core/routes/routes_name.dart';
+import 'package:e_commerce_bloc/features/category/presentation/bloc/category_bloc.dart';
 import 'package:e_commerce_bloc/firebase_options.dart';
 import 'package:e_commerce_bloc/service_locator.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,7 +23,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
-      providers: [BlocProvider(create: (context) => sl<AuthBloc>())],
+      providers: [
+        BlocProvider(create: (context) => sl<AuthBloc>()),
+        BlocProvider(create: (context) => sl<CategoryBloc>()),
+      ],
       child: MaterialApp(
         theme: AppTheme.lightTheme,
         darkTheme: AppTheme.darkTheme,

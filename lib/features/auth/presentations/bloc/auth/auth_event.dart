@@ -18,6 +18,8 @@ class SigninEvent extends AuthEvent {
   final String email;
   final String password;
   const SigninEvent({required this.email, required this.password});
+  @override
+  List<Object?> get props => [email, password];
 }
 
 class SendPasswordResetEmailEvent extends AuthEvent {

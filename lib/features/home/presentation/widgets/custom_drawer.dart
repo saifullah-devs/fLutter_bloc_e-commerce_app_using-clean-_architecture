@@ -1,3 +1,4 @@
+import 'package:e_commerce_bloc/core/routes/routes_name.dart';
 import 'package:e_commerce_bloc/features/auth/presentations/bloc/auth/auth_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,6 +57,29 @@ class CustomDrawer extends StatelessWidget {
 
               const Spacer(),
               const Divider(),
+              if (user?.role == 'admin')
+                ListTile(
+                  leading: const Icon(Icons.admin_panel_settings),
+                  title: const Text(
+                    'Admin Panel',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  onTap: () async {
+                    // 1. Wait for 200 milliseconds (standard delay for ripple effects)
+                    await Future.delayed(const Duration(milliseconds: 200));
+
+                    // 2. Check if the widget is still on screen before navigating
+                    if (context.mounted) {
+                      Navigator.pop(context);
+                      Navigator.pushNamedAndRemoveUntil(
+                        context,
+                        RoutesName.homeScreen,
+                        (route) => false,
+                      );
+                    }
+                  },
+                ),
+              const SizedBox(height: 20),
               ListTile(
                 leading: const Icon(Icons.logout, color: Colors.red),
                 title: const Text(

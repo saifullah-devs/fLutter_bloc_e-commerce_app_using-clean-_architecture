@@ -48,7 +48,7 @@ class _EnterPasswordState extends State<EnterPassword> {
             );
             Navigator.pushNamedAndRemoveUntil(
               context,
-              RoutesName.homeScreen,
+              RoutesName.splashScreen,
               (route) => false,
             );
           }

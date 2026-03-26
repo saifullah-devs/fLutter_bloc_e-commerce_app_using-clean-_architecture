@@ -3,6 +3,7 @@ class UserCreationReq {
   String? firstName;
   String? lastName;
   String? email;
+  String? role;
   String? password;
   String? gender;
   String? age;
@@ -12,6 +13,7 @@ class UserCreationReq {
     this.firstName,
     this.lastName,
     this.email,
+    this.role,
     this.password,
     this.gender,
     this.age,
@@ -23,6 +25,7 @@ class UserCreationReq {
       'firstName': firstName,
       'lastName': lastName,
       'email': email,
+      'role': role,
       'gender': gender,
       'age': age,
       'image': image,

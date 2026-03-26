@@ -10,3 +10,7 @@ export 'splash/presentations/pages/splash_screen.dart';
 
 // home
 export 'home/presentation/views/home_screen.dart';
+
+// Admin
+export 'admin/presentaion/views/admin_dashboard.dart';
+export 'admin/presentaion/views/admin_category_screen.dart';

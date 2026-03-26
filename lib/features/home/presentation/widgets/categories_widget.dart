@@ -1,7 +1,6 @@
 import 'package:e_commerce_bloc/core/utils/enum.dart';
 import 'package:e_commerce_bloc/features/category/domain/entities/category.dart';
 import 'package:e_commerce_bloc/features/category/presentation/bloc/category_bloc.dart';
-import 'package:e_commerce_bloc/service_locator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -10,38 +9,35 @@ class Categories extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => sl<CategoryBloc>()..add(DisplayCategoriesEvent()),
+    return BlocBuilder<CategoryBloc, CategoryState>(
+      buildWhen: (previous, current) => false,
+      builder: (context, state) {
+        if (state.getcategoriesResponse.status == FetchStatus.loading) {
+          return const Center(child: CircularProgressIndicator());
+        }
 
-      child: BlocBuilder<CategoryBloc, CategoryState>(
-        builder: (context, state) {
-          if (state.getcategoriesResponse.status == FetchStatus.loading) {
-            return const Center(child: CircularProgressIndicator());
-          }
+        if (state.getcategoriesResponse.status == FetchStatus.complete) {
+          final categories = state.categoryList ?? [];
+          return Column(
+            children: [
+              _seaAll(context),
+              const SizedBox(height: 20),
+              _categories(categories),
+            ],
+          );
+        }
 
-          if (state.getcategoriesResponse.status == FetchStatus.complete) {
-            final categories = state.categoryList ?? [];
-            return Column(
-              children: [
-                _seaAll(context),
-                const SizedBox(height: 20),
-                _categories(categories),
-              ],
-            );
-          }
+        if (state.getcategoriesResponse.status == FetchStatus.error) {
+          return Center(
+            child: Text(
+              state.getcategoriesResponse.message ??
+                  'Failed to load categories',
+            ),
+          );
+        }
 
-          if (state.getcategoriesResponse.status == FetchStatus.error) {
-            return Center(
-              child: Text(
-                state.getcategoriesResponse.message ??
-                    'Failed to load categories',
-              ),
-            );
-          }
-
-          return const SizedBox.shrink();
-        },
-      ),
+        return const SizedBox.shrink();
+      },
     );
   }
 
@@ -77,6 +73,7 @@ class Categories extends StatelessWidget {
           return Column(
             children: [
               Container(
+                padding: const EdgeInsets.all(18),
                 height: 60,
                 width: 60,
                 decoration: BoxDecoration(

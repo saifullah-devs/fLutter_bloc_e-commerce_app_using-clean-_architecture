@@ -1,5 +1,9 @@
+import 'package:e_commerce_bloc/features/admin/presentaion/bloc/admin_bloc.dart';
+import 'package:e_commerce_bloc/features/admin/presentaion/views/admin_bottom_navigation.dart';
 import 'package:e_commerce_bloc/features/auth/data/models/user_creation_req.dart';
+import 'package:e_commerce_bloc/service_locator.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../features/view.dart';
 import 'routes_name.dart';
 
@@ -54,6 +58,17 @@ class Routes {
         return MaterialPageRoute(
           settings: settings,
           builder: (context) => const PasswordResetEmailPage(),
+        );
+
+      case RoutesName.admin:
+        return MaterialPageRoute(
+          settings: settings,
+          builder: (context) {
+            return BlocProvider(
+              create: (context) => sl<AdminBloc>(),
+              child: const AdminBottomNavigation(),
+            );
+          },
         );
 
       default:

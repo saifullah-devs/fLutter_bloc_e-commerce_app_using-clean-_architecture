@@ -41,7 +41,7 @@ class GenderAndAgeSelectionPage extends StatelessWidget {
                 );
                 Navigator.pushNamedAndRemoveUntil(
                   context,
-                  RoutesName.homeScreen,
+                  RoutesName.splashScreen,
                   (route) => false,
                 );
               }

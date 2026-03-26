@@ -3,6 +3,7 @@ class UserEntity {
   final String firstName;
   final String lastName;
   final String email;
+  final String? role;
   final String image;
   final String gender;
   final String ageGroup;
@@ -12,6 +13,7 @@ class UserEntity {
     required this.firstName,
     required this.lastName,
     required this.email,
+    this.role,
     required this.image,
     required this.gender,
     required this.ageGroup,
